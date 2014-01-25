@@ -33,7 +33,10 @@
 --Fonction pour la création des tableaux
 --
 
-function tableau(nodename, description, tiles)
+function tableau(nodename, description, tiles, taille)
+	if taille	== nil then
+		taille={x=1, y=1}
+	end
 	minetest.register_node(nodename, {
 		description = description,
 		paramtype = 'light',
@@ -43,16 +46,18 @@ function tableau(nodename, description, tiles)
 		tiles = tiles,
 		selection_box = {
 			type = 'fixed',
-			fixed = { -0.5, -0.5, 0.5, 0.5, 0.5, 0.375 }
+			fixed = { -0.5*taille.x, -0.5*taille.y, 0.5, 0.5*taille.x, 0.5*taille.y, 0.375 }
 		},
 		node_box = {
 			type = 'fixed',
 			fixed = {
-				{-0.5,-0.5,0.375,0.5,-0.375,0.5}, --Bas
-				{-0.5,0.375,0.375,0.5,0.5,0.5}, --haut
-				{0.375,-0.375,0.375,0.5,0.375,0.5}, --Droite
-				{-0.5,-0.375,0.375,-0.375,0.375,0.5}, --Gauche
-				{-0.375,-0.375,0.422646,0.375,0.375,0.5}, --Fond
+				{-0.5*taille.x,-0.5*taille.y,0.375,0.5*taille.x,(-0.5*taille.y)+0.125,0.5}, --Bas
+				{-0.5*taille.x,(0.5*taille.y)-0.125,0.375,0.5*taille.x,0.5*taille.y,0.5}, --Haut
+				
+				{(0.5*taille.x)-0.125,-0.5*taille.y,0.375,0.5*taille.x,0.5*taille.y,0.5}, --Droite
+				{-0.5*taille.x,-0.5*taille.y,0.375,(-0.5*taille.x)+0.125,0.5*taille.y,0.5}, --Gauche
+				
+				{-0.5*taille.x,-0.5*taille.y,0.422646,0.5*taille.x,0.5*taille.y,0.5}, --Fond
 			  },
 		},
 		groups = {dig_immediate=2},
@@ -76,7 +81,8 @@ tableau(
 		'tableauMoz_textureright.png',
 		'tableauMoz_texturefront.png',
 		'tableauMoz_textureback.png',
-	}
+	},
+	{x=3,y=3}
 )
 
 tableau(
