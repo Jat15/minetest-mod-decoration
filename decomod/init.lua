@@ -27,38 +27,127 @@
 
 
 --TABLEAUX
+--[[
 
+tableau(
+	"Nom du node",
+	"Description" ,
+	{
+		'top.png,
+		'bottom',
+		'left',
+		'right',
+		'front',
+		'back',
+	},
+	{x= 2, y= 1} --La taille si elle est nulle {x= 1,y= 1}
+)
+
+Nom des partie des grand tableau:
+
+	nomdunode"x"x"y"
+
+	exemple decomod:Supertableau1x2
+
+Pour les image front :
+	
+	nomimage"x"x"y".png
+
+
+
+--]]
 
 --
 --Fonction pour la création des tableaux
 --
 
-function tableau(nodename, description, tiles)
-	minetest.register_node(nodename, {
-		description = description,
-		paramtype = 'light',
-		paramtype2 = 'facedir',
-		is_ground_content = true,
-		drawtype = 'nodebox',
-		tiles = tiles,
-		selection_box = {
-			type = 'fixed',
-			fixed = { -0.5, -0.5, 0.5, 0.5, 0.5, 0.375 }
-		},
-		node_box = {
-			type = 'fixed',
-			fixed = {
-				{-0.5,-0.5,0.375,0.5,-0.375,0.5}, --Bas
-				{-0.5,0.375,0.375,0.5,0.5,0.5}, --haut
-				{0.375,-0.375,0.375,0.5,0.375,0.5}, --Droite
-				{-0.5,-0.375,0.375,-0.375,0.375,0.5}, --Gauche
-				{-0.375,-0.375,0.422646,0.375,0.375,0.5}, --Fond
-			  },
-		},
-		groups = {dig_immediate=2},
-	})
+function tableau(nodename, description, tiles, taille)
+	if taille == nil then
+		taille = {x = 1, y = 1}
+	end
+	
+	for y=1, taille.y do
+		for	x=1, taille.x do
+			local  nodebox = {}
+			
+			if y == 1 then
+				table.insert(nodebox,{-0.5,0.375,0.375,0.5,0.5,0.5}) --haut
+			end
+			if x == 1 then
+				table.insert(nodebox,{-0.5,-0.5,0.375,-0.375,0.5,0.5}) --Gauche
+			end
+			if y == taille.y then
+				table.insert(nodebox,{-0.5,-0.5,0.375,0.5,-0.375,0.5}) --Bas
+			end
+			if x == taille.x then
+				table.insert(nodebox,{0.375,-0.5,0.375,0.5,0.5,0.5}) --Droite
+			end
+			table.insert(nodebox,{-0.5,-0.5,0.422646,0.5,0.5,0.5}) --Fond
+			
+			if taille.x==1 and taille.y==1 then
+				nodenamepart = nodename
+				tilespart = tiles
+			else
+				nodenamepart = nodename..x.."x"..y
+				tilespart = string.gsub(tiles[5], ".png", "")..x.."x"..y..".png"
+			end
+			
+			minetest.register_node(nodenamepart, {
+				--description = description,
+				paramtype = 'light',
+				paramtype2 = 'facedir',
+				is_ground_content = true,
+				drawtype = 'nodebox',
+				tiles = tilespart,
+				selection_box = {
+					type = 'fixed',
+					fixed = { -0.5, -0.5, 0.5, 0.5, 0.5, 0.375 }
+				},
+
+				node_box = {
+					type = 'fixed',
+					fixed = nodebox,
+				},
+				groups = {dig_immediate=2},
+			})
+
+		end
+	end	
+	
 end
 
+--1 z- /0 x+ /2 x- /3 z+
+minetest.register_node("decomod:tableau", {
+	description = "Tableau",
+	paramtype = 'light',
+	paramtype2 = 'facedir',
+	is_ground_content = true,
+	drawtype = 'nodebox',
+	tiles =	{
+		'tableauMoz_texturetop.png',
+		'tableauMoz_texturebottom.png',
+		'tableauMoz_textureleft.png',
+		'tableauMoz_textureright.png',
+		'tableauMoz_texturefront.png',
+		'tableau_test.png',
+	},
+	selection_box = {
+		type = 'fixed',
+		fixed = { -0.5, -0.5, 0.5, 0.5, 0.5, 0.375 }
+	},
+	node_box = {
+		type = 'fixed',
+	fixed = {
+		{-0.5,-0.5,0.375,0.5,-0.375,0.5}, --Bas
+		{-0.5,0.375,0.375,0.5,0.5,0.5}, --haut
+		{0.375,-0.375,0.375,0.5,0.375,0.5}, --Droite
+		{-0.5,-0.375,0.375,-0.375,0.375,0.5}, --Gauche
+		{-0.375,-0.375,0.422646,0.375,0.375,0.5}, --Fond
+	},
+		},
+	groups = {dig_immediate=2},
+
+})
 ---
 ---Déclaration dess tableau
 ---
@@ -76,7 +165,8 @@ tableau(
 		'tableauMoz_textureright.png',
 		'tableauMoz_texturefront.png',
 		'tableauMoz_textureback.png',
-	}
+	},
+	{x= 2, y= 1}
 )
 
 tableau(
