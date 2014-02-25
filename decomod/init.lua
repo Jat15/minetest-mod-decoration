@@ -89,7 +89,7 @@ function tableau(nodename, description, tiles, taille)
 				tilespart = tiles
 			else
 				nodenamepart = nodename..x.."x"..y
-				tilespart = string.gsub(tiles[5], ".png", "")..x.."x"..y..".png"
+				tilespart = string.gsub(tiles[6], ".png", "")..x.."x"..y..".png"
 			end
 			
 			minetest.register_node(nodenamepart, {
@@ -124,11 +124,11 @@ minetest.register_node("decomod:tableau", {
 	is_ground_content = true,
 	drawtype = 'nodebox',
 	tiles =	{
-		'tableauMoz_texturetop.png',
-		'tableauMoz_texturebottom.png',
-		'tableauMoz_textureleft.png',
-		'tableauMoz_textureright.png',
-		'tableauMoz_texturefront.png',
+		'tableau_bord.png',
+		'tableau_bord.png',
+		'tableau_bord.png',
+		'tableau_bord.png',
+		'tableau_fond.png',
 		'tableau_test.png',
 	},
 	selection_box = {
@@ -159,11 +159,11 @@ tableau(
 	'decomod:TableauMosa',
 	'TableauMosa decoration',
 	{
-		'tableauMoz_texturetop.png',
-		'tableauMoz_texturebottom.png',
-		'tableauMoz_textureleft.png',
-		'tableauMoz_textureright.png',
-		'tableauMoz_texturefront.png',
+		'tableau_bord.png',
+		'tableau_bord.png',
+		'tableau_bord.png',
+		'tableau_bord.png',
+		'tableau_fond.png',
 		'tableauMoz_textureback.png',
 	},
 	{x= 2, y= 1}
@@ -173,11 +173,11 @@ tableau(
 	'decomod:tableausachou',
 	'tableauSachou decoration',
 	{
-		'tableauPhoto_texturetop.png',
-		'tableauPhoto_texturebottom.png',
-		'tableauPhoto_textureleft.png',
-		'tableauPhoto_textureright.png',
-		'tableauPhoto_texturefront.png',
+		'tableau_bord.png',
+		'tableau_bord.png',
+		'tableau_bord.png',
+		'tableau_bord.png',
+		'tableau_fond.png',
 		'tableauPhoto_textureback.png',
 	}
 )
@@ -186,11 +186,11 @@ tableau(
 	'decomod:TableauPaysage1',
 	'TableauPaysage1 decoration',
 	{
-		'tableauPaysage1_texturetop.png',
-		'tableauPaysage1_texturebottom.png',
-		'tableauPaysage1_textureleft.png',
-		'tableauPaysage1_textureright.png',
-		'tableauPaysage1_texturefront.png',
+		'tableau_bord.png',
+		'tableau_bord.png',
+		'tableau_bord.png',
+		'tableau_bord.png',
+		'tableau_fond.png',
 		'tableauPaysage1_textureback.png',
 	}
 )
@@ -199,11 +199,11 @@ tableau(
 	'decomod:TableauPaysage2',
 	'TableauPaysage2 decoration',
 	{
-		'tableauPaysage2_texturetop.png',
-		'tableauPaysage2_texturebottom.png',
-		'tableauPaysage2_textureleft.png',
-		'tableauPaysage2_textureright.png',
-		'tableauPaysage2_texturefront.png',
+		'tableau_bord.png',
+		'tableau_bord.png',
+		'tableau_bord.png',
+		'tableau_bord.png',
+		'tableau_fond.png',
 		'tableauPaysage2_textureback.png',
 	}
 )
@@ -212,11 +212,11 @@ tableau(
 	'decomod:tableauJedi',
 	'tableauJedi decoration',
 	{
-		'tableauJedi_texturetop.png',
-		'tableauJedi_texturebottom.png',
-		'tableauJedi_textureleft.png',
-		'tableauJedi_textureright.png',
-		'tableauJedi_texturefront.png',
+		'tableau_bord.png',
+		'tableau_bord.png',
+		'tableau_bord.png',
+		'tableau_bord.png',
+		'tableau_fond.png',
 		'tableauJedi_textureback.png',
 	}
 )
@@ -225,11 +225,11 @@ tableau(
 	'decomod:tableauHassage',
 	'tableauHassage decoration',
 	{
-		'tableauHassage_texturetop.png',
-		'tableauHassage_texturebottom.png',
-		'tableauHassage_textureleft.png',
-		'tableauHassage_textureright.png',
-		'tableauHassage_texturefront.png',
+		'tableau_bord.png',
+		'tableau_bord.png',
+		'tableau_bord.png',
+		'tableau_bord.png',
+		'tableau_fond.png',
 		'tableauHassage_textureback.png',
 	}
 )
@@ -238,11 +238,11 @@ tableau(
 	'decomod:TableauZe',
 	'TableauZe decoration',
 	{
-		'tableauZe_texturetop.png',
-		'tableauZe_texturebottom.png',
-		'tableauZe_textureleft.png',
-		'tableauZe_textureright.png',
-		'tableauZe_texturefront.png',
+		'tableau_bord.png',
+		'tableau_bord.png',
+		'tableau_bord.png',
+		'tableau_bord.png',
+		'tableau_fond.png',
 		'tableauZe_textureback.png',
 	}
 )
@@ -251,11 +251,11 @@ tableau(
 	'decomod:TableauIllOpt',
 	'TableauIllOpt decoration',
 	{
-		'tableauIllOpt_texturetop.png',
-		'tableauIllOpt_texturebottom.png',
-		'tableauIllOpt_textureleft.png',
-		'tableauIllOpt_textureright.png',
-		'tableauIllOpt_texturefront.png',
+		'tableau_bord.png',
+		'tableau_bord.png',
+		'tableau_bord.png',
+		'tableau_bord.png',
+		'tableau_fond.png',
 		'tableauIllOpt_textureback.png',
 	}
 )
