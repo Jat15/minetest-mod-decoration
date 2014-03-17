@@ -29,19 +29,22 @@
 --TABLEAUX
 --[[
 
-tableau(
-	"Nom du node",
-	"Description" ,
-	{
-		'top.png,
+Configuration par défaut :
+
+tableau({
+	name = "Nom du node",
+	description = "Description" ,
+	tiles = {
+		'top',
 		'bottom',
 		'left',
 		'right',
 		'front',
 		'back',
 	},
-	{x= 2, y= 1} --La taille si elle est nulle {x= 1,y= 1}
-)
+	size = {x= 1, y= 1}, -- taille du tableau
+	border = true
+})
 
 Nom des partie des grand tableau:
 
@@ -60,50 +63,148 @@ Pour les image front :
 --
 --Fonction pour la création des tableaux
 --
+decomodtableau={}
 
-function tableau(nodename, description, images, taille)
-	if taille == nil then
-		taille = {x = 1, y = 1}
+function tableau(tableau)
+	if tableau.name == nil then
+		return
 	end
+
+	local default= {
+		description = "",
+		tiles = {
+			'unknown_node.png',
+			'unknown_node.png',
+			'unknown_node.png',
+			'unknown_node.png',
+			'unknown_node.png',
+			'unknown_node.png',
+		},
+		size = {x = 1, y = 1},
+		border = true
+	}
 	
+	local nodename = tableau.name
+	local description = tableau.descriptions or default.description
+	local images = tableau.tiles or default.tiles 
+	local taille = tableau.size or default.size
+	local border = tableau.border
+	if border == nil then 
+		border = default.border
+	end
 	local tampon = images[6]
-	
+	table.insert(decomodtableau, nodename)
 	for y=1, taille.y do
 		for	x=1, taille.x do
 			local  nodebox = {}
 			
-			if y == 1 then
-				table.insert(nodebox,{-0.5,0.375,0.375,0.5,0.5,0.5}) --haut
-			end
-			if x == 1 then
-				table.insert(nodebox,{-0.5,-0.5,0.375,-0.375,0.5,0.5}) --Gauche
-			end
-			if y == taille.y then
-				table.insert(nodebox,{-0.5,-0.5,0.375,0.5,-0.375,0.5}) --Bas
-			end
-			if x == taille.x then
-				table.insert(nodebox,{0.375,-0.5,0.375,0.5,0.5,0.5}) --Droite
+			if border then
+				if y == 1 then
+					table.insert(nodebox,{-0.5,0.375,0.375,0.5,0.5,0.5}) --haut
+				end
+				if x == 1 then
+					table.insert(nodebox,{-0.5,-0.5,0.375,-0.375,0.5,0.5}) --Gauche
+				end
+				if y == taille.y then
+					table.insert(nodebox,{-0.5,-0.5,0.375,0.5,-0.375,0.5}) --Bas
+				end
+				if x == taille.x then
+					table.insert(nodebox,{0.375,-0.5,0.375,0.5,0.5,0.5}) --Droite
+				end
 			end
 			table.insert(nodebox,{-0.5,-0.5,0.422646,0.5,0.5,0.5}) --Fond
 			tilespart = images
-			
 			if taille.x==1 and taille.y==1 then
 				nodenamepart = nodename
+				selectionbox={ -0.5, -0.5, 0.5, 0.5, 0.5, 0.375 }
+				drop = "decomod:tableau"
 			else
+				selectionbox= nil
 				nodenamepart = nodename..x.."x"..y
 				tilespart[6] = string.gsub(tampon, ".png", "")..x.."x"..y..".png"
+				drop = ""
+				description = ""
+
+				place = function(pos)
+					
+				end
+				destruct = function()
+				end
+				if x==1 and y==1 then
+					selectionbox = { -0.5, -0.5, 0.5, 0.5+taille.x-1, 0.5+taille.y-1, 0.375 }
+					drop = "decomod:tableau"
+					minetest.register_alias(nodename,nodename.."1".."x".."1")
+					description = description
+					local listfacedir = {{x=1,z=0},{x=0,z=-1},{x=-1,z=0},{x=0,z=1}}
+					
+					place = function(pos)
+						local param2 = minetest.get_node(pos).param2
+						local air = true
+						for ay=1, taille.y do
+							for	ax=1, taille.x do
+								if minetest.get_node({x = pos.x+(ax-1)*listfacedir[param2+1].x, z = pos.z+(ax-1)*listfacedir[param2+1].z, y = pos.y+ay-1}).name~="air" and minetest.get_node({x = pos.x+(ax-1)*listfacedir[param2+1].x, z = pos.z+(ax-1)*listfacedir[param2+1].z, y = pos.y+ay-1}).name~=nodename.."1x1" then
+									minetest.add_node(
+										pos,
+										{
+											name="decomod:tableau",
+											param2=param2
+										}
+									)
+									air = false
+									break
+								end
+							end
+						end
+						
+						if air then
+							for ay=1, taille.y do
+								for	ax=1, taille.x do
+									if nodename..ax.."x"..ay~=nodename.."1x1" then
+										minetest.add_node(
+											{
+												x = pos.x+(ax-1)*listfacedir[param2+1].x,
+												z = pos.z+(ax-1)*listfacedir[param2+1].z,
+												y = pos.y+ay-1
+											},
+											{
+												name=nodename..ax.."x"..ay,
+												param2=param2
+											}
+										)
+									end
+								end
+							end
+						end
+					end
+					destruct = function(pos, oldnode, oldmetadata, digger)
+						local param2 = oldnode.param2
+						for ay=1, taille.y do
+							for	ax=1, taille.x do
+								minetest.remove_node(
+									{
+										x = pos.x+(ax-1)*listfacedir[param2+1].x,
+										z = pos.z+(ax-1)*listfacedir[param2+1].z,
+										y = pos.y+ay-1
+									}
+								)
+							end
+						end
+					end
+					--]]
+				end
 			end
 			
 			minetest.register_node(nodenamepart, {
-				--description = description,
+				description = description,
 				paramtype = 'light',
 				paramtype2 = 'facedir',
 				is_ground_content = true,
 				drawtype = 'nodebox',
 				tiles = tilespart,
+				drop = drop,
 				selection_box = {
 					type = 'fixed',
-					fixed = { -0.5, -0.5, 0.5, 0.5, 0.5, 0.375 }
+					fixed = selectionbox,
 				},
 
 				node_box = {
@@ -111,6 +212,8 @@ function tableau(nodename, description, images, taille)
 					fixed = nodebox,
 				},
 				groups = {dig_immediate=2},
+				on_construct = place,
+				after_dig_node = destruct
 			})
 
 		end
@@ -118,7 +221,7 @@ function tableau(nodename, description, images, taille)
 	
 end
 
---1 z- /0 x+ /2 x- /3 z+
+
 minetest.register_node("decomod:tableau", {
 	description = "Tableau",
 	paramtype = 'light',
@@ -148,7 +251,10 @@ minetest.register_node("decomod:tableau", {
 	},
 		},
 	groups = {dig_immediate=2},
-
+	after_place_node = function(pos)
+		local param2 = minetest.get_node(pos).param2
+		minetest.add_node(pos, {name=decomodtableau[math.random(1,table.getn(decomodtableau))], param2 = param2})
+	end,
 })
 ---
 ---Déclaration dess tableau
@@ -157,10 +263,10 @@ minetest.register_node("decomod:tableau", {
 --tableau( nom du node, description, les images)
 
 
-tableau(
-	'decomod:TableauMosa',
-	'TableauMosa decoration',
-	{
+tableau({
+	name = 'decomod:TableauMosa',
+	description = 'TableauMosa decoration',
+	tiles = {
 		'tableau_bord.png',
 		'tableau_bord.png',
 		'tableau_bord.png',
@@ -168,12 +274,12 @@ tableau(
 		'tableau_fond.png',
 		'tableauMoz_textureback.png',
 	}
-)
+})
 
-tableau(
-	'decomod:tableausachou',
-	'tableauSachou decoration',
-	{
+tableau({
+	name = 'decomod:tableausachou',
+	description = 'tableauSachou decoration',
+	tiles = {
 		'tableau_bord.png',
 		'tableau_bord.png',
 		'tableau_bord.png',
@@ -181,12 +287,12 @@ tableau(
 		'tableau_fond.png',
 		'tableauPhoto_textureback.png',
 	}
-)
+})
 
-tableau(
-	'decomod:TableauPaysage1',
-	'TableauPaysage1 decoration',
-	{
+tableau({
+	name = 'decomod:TableauPaysage1',
+	description = 'TableauPaysage1 decoration',
+	tiles = {
 		'tableau_bord.png',
 		'tableau_bord.png',
 		'tableau_bord.png',
@@ -194,12 +300,12 @@ tableau(
 		'tableau_fond.png',
 		'tableauPaysage1_textureback.png',
 	}
-)
+})
 
-tableau(
-	'decomod:TableauPaysage2',
-	'TableauPaysage2 decoration',
-	{
+tableau({
+	name = 'decomod:TableauPaysage2',
+	description = 'TableauPaysage2 decoration',
+	tiles = {
 		'tableau_bord.png',
 		'tableau_bord.png',
 		'tableau_bord.png',
@@ -207,12 +313,12 @@ tableau(
 		'tableau_fond.png',
 		'tableauPaysage2_textureback.png',
 	}
-)
+})
 
-tableau(
-	'decomod:tableauJedi',
-	'tableauJedi decoration',
-	{
+tableau({
+	name = 'decomod:tableauJedi',
+	description = 'tableauJedi decoration',
+	tiles = {
 		'tableau_bord.png',
 		'tableau_bord.png',
 		'tableau_bord.png',
@@ -220,12 +326,12 @@ tableau(
 		'tableau_fond.png',
 		'tableauJedi_textureback.png',
 	}
-)
+})
 
-tableau(
-	'decomod:tableauHassage',
-	'tableauHassage decoration',
-	{
+tableau({
+	name = 'decomod:tableauHassage',
+	description = 'tableauHassage decoration',
+	tiles = {
 		'tableau_bord.png',
 		'tableau_bord.png',
 		'tableau_bord.png',
@@ -233,12 +339,12 @@ tableau(
 		'tableau_fond.png',
 		'tableauHassage_textureback.png',
 	}
-)
+})
 
-tableau(
-	'decomod:TableauZe',
-	'TableauZe decoration',
-	{
+tableau({
+	name = 'decomod:TableauZe',
+	description = 'TableauZe decoration',
+	tiles = {
 		'tableau_bord.png',
 		'tableau_bord.png',
 		'tableau_bord.png',
@@ -246,12 +352,12 @@ tableau(
 		'tableau_fond.png',
 		'tableauZe_textureback.png',
 	}
-)
+})
 
-tableau(
-	'decomod:TableauIllOpt',
-	'TableauIllOpt decoration',
-	{
+tableau({
+	name = 'decomod:TableauIllOpt',
+	description = 'TableauIllOpt decoration',
+	tiles = {
 		'tableau_bord.png',
 		'tableau_bord.png',
 		'tableau_bord.png',
@@ -259,13 +365,12 @@ tableau(
 		'tableau_fond.png',
 		'tableauIllOpt_textureback.png',
 	}
-)
+})
 
-
-tableau(
-	'decomod:mapmonde',
-	'Mapmonde',
-	{
+tableau({
+	name = 'decomod:mapmonde',
+	description = 'Mapmonde',
+	tiles = {
 		'mapmonde_bord.png',
 		'mapmonde_bord.png',
 		'mapmonde_bord.png',
@@ -273,82 +378,20 @@ tableau(
 		'tableau_fond.png',
 		'mapmonde.png',
 	},
-	{x= 2, y= 1}
-)
+	size = {x= 2, y= 1},
+	border = false
+})
 
 --
 -- Craft
 --
 
 minetest.register_craft({
-	output = 'decomod:TableauMosa',
+	output = "decomod:tableau",
 	recipe = {
-		{'wool:white', 'wool:white', 'wool:white'},
-		{'default:wood', 'default:wood', 'default:wood'},
-		{"", 'dye:grey', ""}
-	}
-})
-
-minetest.register_craft({
-	output = 'decomod:tableausachou',
-	recipe = {
-		{'wool:white', 'wool:white', 'wool:white'},
-		{'default:wood', 'default:wood', 'default:wood'},
-		{"", 'dye:green', ""}
-	}
-})
-
-minetest.register_craft({
-	output = 'decomod:TableauPaysage1',
-	recipe = {
-		{'wool:white', 'wool:white', 'wool:white'},
-		{'default:wood', 'default:wood', 'default:wood'},
-		{"", 'dye:brown', ""}
-	}
-})
-
-minetest.register_craft({
-	output = 'decomod:TableauPaysage2',
-	recipe = {
-		{'wool:white', 'wool:white', 'wool:white'},
-		{'default:wood', 'default:wood', 'default:wood'},
-		{"", 'dye:blue', ""}
-	}
-})
-
-minetest.register_craft({
-	output = 'decomod:tableauJedi',
-	recipe = {
-		{'wool:white', 'wool:white', 'wool:white'},
-		{'default:wood', 'default:wood', 'default:wood'},
-		{"", 'dye:black', ""}
-	}
-})
-
-minetest.register_craft({
-	output = 'decomod:tableauHassage',
-	recipe = {
-		{'wool:white', 'wool:white', 'wool:white'},
-		{'default:wood', 'default:wood', 'default:wood'},
-		{"", 'dye:red', ""}
-	}
-})
-
-minetest.register_craft({
-	output = 'decomod:TableauZe',
-	recipe = {
-		{'wool:white', 'wool:white', 'wool:white'},
-		{'default:wood', 'default:wood', 'default:wood'},
-		{'dye:blue', 'dye:white', 'dye:red'}
-	}
-})
-
-minetest.register_craft({
-	output = 'decomod:TableauIllOpt',
-	recipe = {
-		{'wool:white', 'wool:white', 'wool:white'},
-		{'default:wood', 'default:wood', 'default:wood'},
-		{'group:mesecon_conductor_craftable', 'dye:white', 'group:mesecon_conductor_craftable'}
+		{"group:stick", "group:stick", "group:stick"},
+		{"group:stick", "wool:white", "group:stick"},
+		{"group:stick", "group:stick", "group:stick"}
 	}
 })
 
