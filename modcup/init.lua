@@ -10,6 +10,13 @@ minetest.register_node("modcup:coupeOr",{
   paramtype2 = 'facedir',
   is_ground_content = true,
   groups = {cracky=3},
+  after_place_node = function(pos, placer)
+		local meta = minetest.get_meta(pos)
+		meta:set_string("owner", placer:get_player_name() or "")
+		meta:set_string("infotext", "CoupeOr(appartient a "..
+				meta:get_string("owner")..")")
+	end,
+
   drawtype = 'nodebox',
   tiles = {
     'or1.png',
@@ -50,6 +57,13 @@ minetest.register_node("modcup:coupeArgent",{
   paramtype = 'light',
   paramtype2 = 'facedir',
   is_ground_content = true,
+  after_place_node = function(pos, placer)
+		local meta = minetest.get_meta(pos)
+		meta:set_string("owner", placer:get_player_name() or "")
+		meta:set_string("infotext", "CoupeArgent(appartient a "..
+				meta:get_string("owner")..")")
+	end,
+
   groups = {cracky=3},
   drawtype = 'nodebox',
   tiles = {
@@ -92,6 +106,13 @@ minetest.register_node("modcup:coupeBronze",{
   paramtype2 = 'facedir',
   is_ground_content = true,
   groups = {cracky=3},
+  after_place_node = function(pos, placer)
+		local meta = minetest.get_meta(pos)
+		meta:set_string("owner", placer:get_player_name() or "")
+		meta:set_string("infotext", "CoupeBronze(appartient a "..
+				meta:get_string("owner")..")")
+	end,
+
   drawtype = 'nodebox',
   tiles = {
     'bronze1.png',
@@ -133,6 +154,13 @@ minetest.register_node("modcup:medaille",{
   paramtype2 = 'facedir',
   is_ground_content = true,
   groups = {cracky=3},
+  after_place_node = function(pos, placer)
+		local meta = minetest.get_meta(pos)
+		meta:set_string("owner", placer:get_player_name() or "")
+		meta:set_string("infotext", "Medaille(appartient a "..
+				meta:get_string("owner")..")")
+	end,
+
   drawtype = 'nodebox',
   tiles = {
     'medaille1.png',
@@ -165,6 +193,13 @@ minetest.register_node('modcup:trophee', {
   paramtype2 = 'facedir',
   is_ground_content = true,
   groups = {cracky=3},
+  after_place_node = function(pos, placer)
+		local meta = minetest.get_meta(pos)
+		meta:set_string("owner", placer:get_player_name() or "")
+		meta:set_string("infotext", "Trophee(appartient a "..
+				meta:get_string("owner")..")")
+	end,
+
   drawtype = 'nodebox',
   tiles = {
     'trophe1.png',
@@ -193,15 +228,19 @@ node_box = {
 			{-0.1875,0.1875,-0.1875,0.1875,0.25,0.1875}, 
 			{-0.25,0.25,-0.25,0.25,0.3125,0.25}, 
 			{-0.1875,-0.1875,-0.1875,0.1875,-0.125,0.1875}, 
-			{-0.25,0.3125,0.1875,0.25,0.5,0.25}, 
-			{-0.25,0.3125,-0.25,-0.1875,0.5,0.25}, 
+			{-0.25,0.3125,0.1875,0.25,0.5,0.25}, 			      {-0.25,0.3125,-0.25,-0.1875,0.5,0.25}, 
 			{0.1875,0.3125,-0.25,0.25,0.5,0.25}, 
 			{-0.25,0.25,-0.25,0.25,0.5,-0.1875}, 
 			{-0.1875,0.425,-0.1875,0.1875,0.4625,0.1875}, 
+			{0.25,0.3125,-0.125,0.3125,0.4375,0.125}, 
+			{-0.3125,0.3125,-0.125,-0.25,0.4375,0.125}, 
+			{-0.0625,-0.5,-0.25,0.0625,-0.125,-0.1875}, 
+			{-0.0625,-0.5,0.1875,0.0625,-0.125,0.25}, 
+			{-0.25,-0.5,-0.0625,-0.1875,-0.125,0.0625}, 
+			{0.1875,-0.5,-0.0625,0.25,-0.125,0.0625}, 
 		}
 	}
 })
-
 
 
 --REGISTER CRAFTS ( crafts a modifier )
