@@ -15,12 +15,7 @@ minetest.register_node("drapeauxmod:pied_drap",{
   groups = {cracky=3},
   drawtype = 'nodebox',
   tiles = {
-    'piedrap_texturetop.png',
-    'piedrap_texturebottom.png',
-    'piedrap_textureleft.png',
-    'piedrap_textureright.png',
-    'piedrap_texturefront.png',
-    'piedrap_textureback.png',
+    'drapeauxmod_metal.png'
   },
 selection_box = {
     type = 'fixed',
@@ -47,12 +42,7 @@ minetest.register_node("drapeauxmod:embout_drap",{
      is_ground_content = true,
      groups = {cracky=3},
      tiles = {
-    'enboutdrap_texturetop.png',
-    'enboutdrap_texturebottom.png',
-    'enboutdrap_textureleft.png',
-    'enboutdrap_textureright.png',
-    'enboutdrap_texturefront.png',
-    'enboutdrap_textureback.png',
+    'drapeauxmod_metal.png'
   },
 
     selection_box = {
@@ -81,12 +71,12 @@ minetest.register_node("drapeauxmod:drapeau_drap",{
       groups = {cracky=3},
       drawtype = 'nodebox',
       tiles = {
-    'drap_texturetop.png',
-    'drap_texturebottom.png',
-    'drap_textureleft.png',
-    'drap_textureright.png',
-    'drap_texturefront.png',
-    'drap_textureback.png',
+    'drapeauxmod_metal.png',
+    'drapeauxmod_metal.png',
+    'drapeauxmod_metal.png',
+    'drapeauxmod_metal.png',
+    'drapeauxmod_france.png',
+    'drapeauxmod_france.png^[transformFX',
   },
 selection_box = {
     type = 'fixed',
