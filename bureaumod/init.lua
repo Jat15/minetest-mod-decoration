@@ -1,8 +1,7 @@
---
 -- BureauMod Code - Code Libre Ze.-= Lua Minetest Steinheim =-
 -- 
 
--- Bureau 
+-- REGISTER NODE 
 
 minetest.register_node('bureaumod:bureau', {
   description = 'Bureau Decoration ',
