@@ -1,5 +1,4 @@
 -- BureauMod Code - Code Libre Ze.-= Lua Minetest Steinheim =-
--- 
 
 -- REGISTER NODE 
 
