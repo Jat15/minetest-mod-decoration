@@ -1,6 +1,6 @@
 -- COMPUTER Mod - Code Libre Ze.-=Lua Minetest Steinheim=-
 
--REGISTER NODE
+--REGISTER NODE
 
 minetest.register_node('computermod:pcsteinheim', {
   description = 'PC Steinheim OS',
