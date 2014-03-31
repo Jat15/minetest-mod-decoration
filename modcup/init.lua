@@ -16,6 +16,11 @@ minetest.register_node("modcup:coupeOr",{
 		meta:set_string("infotext", "CoupeOr(appartient a "..
 				meta:get_string("owner")..")")
 	end,
+  can_dig = function(pos, player)
+          local meta = minetest.env:get_meta(pos)
+          local inv = meta:get_inventory()
+  return minetest.setting_get("name") == player:get_player_name() 
+     end,
 
   drawtype = 'nodebox',
   tiles = {
@@ -63,6 +68,11 @@ minetest.register_node("modcup:coupeArgent",{
 		meta:set_string("infotext", "CoupeArgent(appartient a "..
 				meta:get_string("owner")..")")
 	end,
+can_dig = function(pos, player)
+          local meta = minetest.env:get_meta(pos)
+          local inv = meta:get_inventory()
+  return minetest.setting_get("name") == player:get_player_name() 
+     end,
 
   groups = {cracky=3},
   drawtype = 'nodebox',
@@ -113,6 +123,12 @@ minetest.register_node("modcup:coupeBronze",{
 				meta:get_string("owner")..")")
 	end,
 
+  can_dig = function(pos, player)
+          local meta = minetest.env:get_meta(pos)
+          local inv = meta:get_inventory()
+  return minetest.setting_get("name") == player:get_player_name() 
+     end,
+
   drawtype = 'nodebox',
   tiles = {
     'bronze1.png',
@@ -161,6 +177,12 @@ minetest.register_node("modcup:medaille",{
 				meta:get_string("owner")..")")
 	end,
 
+  can_dig = function(pos, player)
+          local meta = minetest.env:get_meta(pos)
+          local inv = meta:get_inventory()
+  return minetest.setting_get("name") == player:get_player_name() 
+     end,
+
   drawtype = 'nodebox',
   tiles = {
     'medaille1.png',
@@ -199,6 +221,12 @@ minetest.register_node('modcup:trophee', {
 		meta:set_string("infotext", "Trophee(appartient a "..
 				meta:get_string("owner")..")")
 	end,
+
+  can_dig = function(pos, player)
+          local meta = minetest.env:get_meta(pos)
+          local inv = meta:get_inventory()
+  return minetest.setting_get("name") == player:get_player_name() 
+     end,
 
   drawtype = 'nodebox',
   tiles = {
