@@ -14,6 +14,13 @@ minetest.register_node('computermod:pcsteinheim', {
 		meta:set_string("infotext", "PC (appartient a "..
 				meta:get_string("owner")..")")
 	end,
+
+ can_dig = function(pos, player)
+          local meta = minetest.env:get_meta(pos)
+          local inv = meta:get_inventory()
+  return minetest.setting_get("name") == player:get_player_name() 
+     end,
+
   drawtype = 'nodebox',
   tiles = {
     'computer_texturetop.png',
