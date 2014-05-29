@@ -1,26 +1,9 @@
 -- Mod_Cup --      Code Libre Ze.-= Minetest Lua Steinheim =-
 --
 
-local function has_coupeOr_privilege(meta, player)
-return player:get_player_name() == meta:get_string("owner") or player:get_player_name() == minetest.setting_get("name")
+local function has_privilege(meta, player)
+	return player:get_player_name() == meta:get_string("owner") or player:get_player_name() == minetest.setting_get("name")
 end
-
-local function has_coupeArgent_privilege(meta, player)
-return player:get_player_name() == meta:get_string("owner") or player:get_player_name() == minetest.setting_get("name")
-end
-
-local function has_coupeBronze_privilege(meta, player)
-return player:get_player_name() == meta:get_string("owner") or player:get_player_name() == minetest.setting_get("name")
-end
-
-local function has_medaille_privilege(meta, player)
-return player:get_player_name() == meta:get_string("owner") or player:get_player_name() == minetest.setting_get("name")
-end
-
-local function has_trophee_privilege(meta, player)
-return player:get_player_name() == meta:get_string("owner") or player:get_player_name() == minetest.setting_get("name")
-end
-
 
 -- REGISTER NODE
 
@@ -49,11 +32,11 @@ minetest.register_node("modcup:coupeOr",{
 	can_dig = function(pos,player)
 		local meta = minetest.get_meta(pos);
 		local inv = meta:get_inventory()
-		return inv:is_empty("main") and has_coupeOr_privilege(meta, player)
+		return inv:is_empty("main") and has_privilege(meta, player)
 	end,
 	allow_metadata_inventory_move = function(pos, from_list, from_index, to_list, to_index, count, player)
 		local meta = minetest.get_meta(pos)
-		if not has_coupeOr_privilege(meta, player) then
+		if not has_privilege(meta, player) then
 			minetest.log("action", player:get_player_name()..
 					" verrouille appartenant a "..
 					meta:get_string("owner").." at "..
@@ -64,7 +47,7 @@ minetest.register_node("modcup:coupeOr",{
 	end,
     allow_metadata_inventory_put = function(pos, listname, index, stack, player)
 		local meta = minetest.get_meta(pos)
-		if not has_coupeOr_privilege(meta, player) then
+		if not has_privilege(meta, player) then
 			minetest.log("action", player:get_player_name()..
 					" verrouille appartenant a "..
 					meta:get_string("owner").." at "..
@@ -75,7 +58,7 @@ minetest.register_node("modcup:coupeOr",{
 	end,
     allow_metadata_inventory_take = function(pos, listname, index, stack, player)
 		local meta = minetest.get_meta(pos)
-		if not has_coupeOr_privilege(meta, player) then
+		if not has_privilege(meta, player) then
 			minetest.log("action", player:get_player_name()..
 					" verrouille appartenant a "..
 					meta:get_string("owner").." at "..
@@ -142,11 +125,11 @@ minetest.register_node("modcup:coupeArgent",{
 	can_dig = function(pos,player)
 		local meta = minetest.get_meta(pos);
 		local inv = meta:get_inventory()
-		return inv:is_empty("main") and has_coupeArgent_privilege(meta, player)
+		return inv:is_empty("main") and has_privilege(meta, player)
 	end,
 	allow_metadata_inventory_move = function(pos, from_list, from_index, to_list, to_index, count, player)
 		local meta = minetest.get_meta(pos)
-		if not has_coupeArgent_privilege(meta, player) then
+		if not has_privilege(meta, player) then
 			minetest.log("action", player:get_player_name()..
 					" verrouille appartenant a "..
 					meta:get_string("owner").." at "..
@@ -157,7 +140,7 @@ minetest.register_node("modcup:coupeArgent",{
 	end,
     allow_metadata_inventory_put = function(pos, listname, index, stack, player)
 		local meta = minetest.get_meta(pos)
-		if not has_coupeArgent_privilege(meta, player) then
+		if not has_privilege(meta, player) then
 			minetest.log("action", player:get_player_name()..
 					" verrouille appartenant a "..
 					meta:get_string("owner").." at "..
@@ -168,7 +151,7 @@ minetest.register_node("modcup:coupeArgent",{
 	end,
     allow_metadata_inventory_take = function(pos, listname, index, stack, player)
 		local meta = minetest.get_meta(pos)
-		if not has_coupeArgent_privilege(meta, player) then
+		if not has_privilege(meta, player) then
 			minetest.log("action", player:get_player_name()..
 					" verrouille appartenant a "..
 					meta:get_string("owner").." at "..
@@ -238,11 +221,11 @@ minetest.register_node("modcup:coupeBronze",{
 	can_dig = function(pos,player)
 		local meta = minetest.get_meta(pos);
 		local inv = meta:get_inventory()
-		return inv:is_empty("main") and has_coupeBronze_privilege(meta, player)
+		return inv:is_empty("main") and has_privilege(meta, player)
 	end,
 	allow_metadata_inventory_move = function(pos, from_list, from_index, to_list, to_index, count, player)
 		local meta = minetest.get_meta(pos)
-		if not has_coupeBronze_privilege(meta, player) then
+		if not has_privilege(meta, player) then
 			minetest.log("action", player:get_player_name()..
 					" verrouille appartenant a "..
 					meta:get_string("owner").." at "..
@@ -253,7 +236,7 @@ minetest.register_node("modcup:coupeBronze",{
 	end,
     allow_metadata_inventory_put = function(pos, listname, index, stack, player)
 		local meta = minetest.get_meta(pos)
-		if not has_coupeBronze_privilege(meta, player) then
+		if not has_privilege(meta, player) then
 			minetest.log("action", player:get_player_name()..
 					" verrouille appartenant a "..
 					meta:get_string("owner").." at "..
@@ -264,7 +247,7 @@ minetest.register_node("modcup:coupeBronze",{
 	end,
     allow_metadata_inventory_take = function(pos, listname, index, stack, player)
 		local meta = minetest.get_meta(pos)
-		if not has_coupeBronze_privilege(meta, player) then
+		if not has_privilege(meta, player) then
 			minetest.log("action", player:get_player_name()..
 					" verrouille appartenant a "..
 					meta:get_string("owner").." at "..
@@ -334,11 +317,11 @@ minetest.register_node("modcup:medaille",{
 	can_dig = function(pos,player)
 		local meta = minetest.get_meta(pos);
 		local inv = meta:get_inventory()
-		return inv:is_empty("main") and has_medaille_privilege(meta, player)
+		return inv:is_empty("main") and has_privilege(meta, player)
 	end,
 	allow_metadata_inventory_move = function(pos, from_list, from_index, to_list, to_index, count, player)
 		local meta = minetest.get_meta(pos)
-		if not has_medaille_privilege(meta, player) then
+		if not has_privilege(meta, player) then
 			minetest.log("action", player:get_player_name()..
 					" verrouille appartenant a "..
 					meta:get_string("owner").." at "..
@@ -349,7 +332,7 @@ minetest.register_node("modcup:medaille",{
 	end,
     allow_metadata_inventory_put = function(pos, listname, index, stack, player)
 		local meta = minetest.get_meta(pos)
-		if not has_medaille_privilege(meta, player) then
+		if not has_privilege(meta, player) then
 			minetest.log("action", player:get_player_name()..
 					" verrouille appartenant a "..
 					meta:get_string("owner").." at "..
@@ -360,7 +343,7 @@ minetest.register_node("modcup:medaille",{
 	end,
     allow_metadata_inventory_take = function(pos, listname, index, stack, player)
 		local meta = minetest.get_meta(pos)
-		if not has_medaille_privilege(meta, player) then
+		if not has_privilege(meta, player) then
 			minetest.log("action", player:get_player_name()..
 					" verrouille appartenant a "..
 					meta:get_string("owner").." at "..
@@ -421,11 +404,11 @@ minetest.register_node('modcup:trophee', {
 	can_dig = function(pos,player)
 		local meta = minetest.get_meta(pos);
 		local inv = meta:get_inventory()
-		return inv:is_empty("main") and has_trophee_privilege(meta, player)
+		return inv:is_empty("main") and has_privilege(meta, player)
 	end,
 	allow_metadata_inventory_move = function(pos, from_list, from_index, to_list, to_index, count, player)
 		local meta = minetest.get_meta(pos)
-		if not has_trophee_privilege(meta, player) then
+		if not has_privilege(meta, player) then
 			minetest.log("action", player:get_player_name()..
 					" verrouille appartenant a "..
 					meta:get_string("owner").." at "..
@@ -436,7 +419,7 @@ minetest.register_node('modcup:trophee', {
 	end,
     allow_metadata_inventory_put = function(pos, listname, index, stack, player)
 		local meta = minetest.get_meta(pos)
-		if not has_trophee_privilege(meta, player) then
+		if not has_privilege(meta, player) then
 			minetest.log("action", player:get_player_name()..
 					" verrouille appartenant a "..
 					meta:get_string("owner").." at "..
@@ -447,7 +430,7 @@ minetest.register_node('modcup:trophee', {
 	end,
     allow_metadata_inventory_take = function(pos, listname, index, stack, player)
 		local meta = minetest.get_meta(pos)
-		if not has_trophee_privilege(meta, player) then
+		if not has_privilege(meta, player) then
 			minetest.log("action", player:get_player_name()..
 					" verrouille appartenant a "..
 					meta:get_string("owner").." at "..
