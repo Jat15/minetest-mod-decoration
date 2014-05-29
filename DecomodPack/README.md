@@ -26,3 +26,4 @@ Pack contenant plusieurs Blocs & Nodes de décoration .
 - Mod_Tombale
 - Mod_Icube
 - Mod_Playcube
+- Mod_Etagere
